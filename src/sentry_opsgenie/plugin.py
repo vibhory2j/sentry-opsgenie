@@ -55,6 +55,7 @@ class OpsGeniePlugin(notify.NotificationPlugin):
     project_conf_form = OpsGenieOptionsForm
 
     logger = logging.getLogger('sentry.plugins.opsgenie')
+    logger.setLevel(10)
 
     def is_configured(self, project):
         return all((
@@ -103,6 +104,8 @@ class OpsGeniePlugin(notify.NotificationPlugin):
 
         if recipients:
             payload['recipients'] = recipients
+
+        logger.debug('payload: %s, alert_url: %s, headers: %s', payload, alert_url, headers)
 
         resp = http.safe_urlopen(alert_url, json=payload, headers=headers)
         if not resp.ok:
