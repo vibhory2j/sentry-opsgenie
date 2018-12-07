@@ -105,6 +105,8 @@ class OpsGeniePlugin(notify.NotificationPlugin):
         if recipients:
             payload['recipients'] = recipients
 
+        logger = logging.getLogger('sentry.plugins.opsgenie')
+        logger.setLevel(10)
         logger.debug('payload: %s, alert_url: %s, headers: %s', payload, alert_url, headers)
 
         resp = http.safe_urlopen(alert_url, json=payload, headers=headers)
